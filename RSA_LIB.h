@@ -71,6 +71,10 @@ typedef union{ // Configures whether or not to starts the modular exponentiation
 	}BITS;
 }__rsa_modexp_t; // RSA_SET_START_MODEXP_REG (0x080C)
 
+// Constant definitions for the SET_START_MODEXP register
+#define kRSA_START_MODEXP_OFF 0
+#define kRSA_START_MODEXP_ON 1
+
 typedef union{ // Configures whether or not to start the modular multiplication.
 	uint32_t WORD;
 	struct{
@@ -79,6 +83,10 @@ typedef union{ // Configures whether or not to start the modular multiplication.
 	}BITS;
 }__rsa_modmult_t; // RSA_SET_START_MODMULT_REG (0x0810)
 
+// Constant definitions for the SET_START_MODMULT register
+#define kRSA_START_MODMULT_OFF 0
+#define kRSA_START_MODMULT_ON 1
+
 typedef union{ // Configures whether or not to start the multiplication.
 	uint32_t WORD;
 	struct{
@@ -86,6 +94,10 @@ typedef union{ // Configures whether or not to start the multiplication.
 		uint32_t			:31;
 	}BITS;
 }__rsa_mult_t; // RSA_SET_START_MULT_REG (0x0814)
+
+// Constant definitions for the SET_START_MULT register
+#define kRSA_START_MULT_OFF 0
+#define kRSA_START_MULT_ON 1
 
 typedef union{ // Represents the RSA status.
 	uint32_t WORD;
@@ -101,15 +113,23 @@ typedef union{ // Configures the constant_time option.
 		uint32_t kTIME	:1;
 		uint32_t		:31;
 	}BITS;
-}__rsa_ktime_t; // RSA_CONSTANT_TIME_REG (0x0820)
+}__rsa_ktime_t; // RSA_CONSTANT_TIME_REG (0x0820)	
 
-typedef union{ // Configures the search option.
+// Constant definitions for the CONSTANT_TIME register
+#define kRSA_CONSTANT_TIME_ON 0		// Acceleration
+#define kRSA_CONSTANT_TIME_OFF 1 	// No acceleration(default value)
+
+typedef union{ // Configures the search option. This option should be used together with RSA_SEARCH_POS_REG. (R/W)
 	uint32_t WORD;
 	struct{
 		uint32_t SEARCH_EN	:1;
 		uint32_t			:31;
 	}BITS;
 }__rsa_searchen_t; // RSA_SEARCH_ENABLE_REG (0x0824)
+
+// Constant definitions for the SEARCH_ENABLE register
+#define kRSA_SEARCH_EN_OFF 0		// No acceleration (default value)
+#define kRSA_SEARCH_EN_ON 1 		// Acceleration 
 
 typedef union{ // Configures the starting address to start search
 	uint32_t WORD;
@@ -125,7 +145,7 @@ typedef union{ // Represents whether or not the RSA memory completes initializat
 		uint32_t Q_CLEAN	:1;	
 		uint32_t			:31;
 	}BITS;
-}__rsa_queryclean_t; // RSA_QUERY_CLEAN_REG (0x0808)
+}__rsa_queryclean_t; // RSA_QUERY_CLEAN_REG (0x0808)	
 
 typedef union{ // Write 1 to clear the RSA interrupt. (WT)
 	uint32_t WORD;
@@ -135,6 +155,9 @@ typedef union{ // Write 1 to clear the RSA interrupt. (WT)
 	}BITS;
 }__rsa_intclr_t; // RSA_INT_CLR_REG (0x081C)
 
+// Constant definitions for the INT_CLR register
+#define kRSA_INT_CLR 1	// Clear interrupt
+
 typedef union{ // Write 1 to enable the RSA interrupt. (R/W)
 	uint32_t WORD;
 	struct{
@@ -142,6 +165,9 @@ typedef union{ // Write 1 to enable the RSA interrupt. (R/W)
 		uint32_t		:31;
 	}BITS;
 }__rsa_inten_t; // RSA_INT_ENA_REG (0x082C)
+
+// Constant definitions for the INT_ENA register
+#define kRSA_INT_EN 1		// Enable interrupt
 
 typedef union{ // Write 1 to enable the RSA interrupt. (R/W)
 	uint32_t WORD;
@@ -175,6 +201,12 @@ typedef struct{
 	volatile __rsa_inten_t			INT_ENA;			// Enable RSA interrupt 			0x082C R/W
 	volatile __rsa_date_t			DATE;				// Version control register 		0x0830 R/W
 } __rsa__t;
+
+// Masks to access RSA Accelerator Memory Blocks (0x6008_A000)
+#define mRSA_M_MEM 0x6008A000 // From 0x6008A000 to 0x6008A17F (384kB) (R/W)
+#define mRSA_Z_MEM 0x6008A200 // From 0x6008A200 to 0x6008A37F (384kB) (R/W)
+#define mRSA_Y_MEM 0x6008A400 // From 0x6008A400 to 0x6008A57F (384kB) (R/W)
+#define mRSA_X_MEM 0x6008A600 // From 0x6008A600 to 0x6008A77F (384kB) (R/W)
 
 /*******************************************************************/
 /****************End Fields Structure Definition********************/
